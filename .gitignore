@@ -102,3 +102,18 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Singularity Images
+*.simg
+
+# Exclude the user-directroy created by the jupyter server
+user/**
+!/user/.gitkeep
+
+# Exclude everything in example/data
+example/data/*
+!example/data/.gitkeep
+
+
+# Exclude Dolphin files
+.directory
