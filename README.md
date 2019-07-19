@@ -48,9 +48,10 @@ You should now have the following directory tree:
 cryo_CARE_simg
 |   └─── example
 |           └─── data
-|                   └─── Tomo110
-|                           └─── frames
-|                           └─── imod
+|           |       └─── Tomo110
+|           |               └─── frames
+|           |               └─── imod
+|           |--- MotionCor2 v1.2.6 CUDA-9.2
 ```
 
 ### Run the Singularity Image
