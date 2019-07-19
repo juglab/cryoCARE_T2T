@@ -6,7 +6,8 @@ Tim-Oliver Buchholz<sup>1</sup>, Mareike Jordan, Gaia Pigino, Florian Jug</br>
 
 Multiple approaches to use deep learning for image restoration have recently been proposed. Training such approaches requires well registered pairs of high and low quality images. While this is easily achievable for many imaging modalities, e.g. fluorescence light microscopy, for others it is not. Cryo-transmission electron microscopy (cryo-TEM) could profoundly benefit from improved denoising methods, unfortunately it is one of the latter. Here we show how recent advances in network training for image restoration tasks, i.e. denoising, can be applied to cryo-TEM data. We describe our proposed method and show how it can be applied to single cryo-TEM projections and whole cryo-tomographic image volumes. Our proposed restoration method dramatically increases contrast in cryo-TEM images, which improves the interpretability of the acquired data. Furthermore we show that automated downstream processing on restored image data, demonstrated on a dense segmentation task, leads to improved results. 
 
-Paper: [https://arxiv.org/abs/1810.05420](https://arxiv.org/abs/1810.05420)
+Paper: [https://arxiv.org/abs/1810.05420](https://arxiv.org/abs/1810.05420)</br>
+[Methods in Cell Biology - Chapter 13](https://doi.org/10.1016/bs.mcb.2019.05.001)
 
 This is the implementation of the Tomo2Tomo denoising scheme for direct-detector movie acquisitions.
 
