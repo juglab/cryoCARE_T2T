@@ -41,6 +41,18 @@ We would like to thank Mareike Jordan from the [Pigino Lab](https://www.mpi-cbg.
 
 The data can be downloaded [here](https://cloud.mpi-cbg.de/index.php/s/prTOcYsFfPNa1mG/download).
 
+Once the data is downloaded unpack it into `cryoCARE_simg/example/data/`. 
+
+You should now have the following directory tree:
+```
+cryo_CARE_simg
+|   └─── example
+|           └─── data
+|                   └─── Tomo110
+|                           └─── frames
+|                           └─── imod
+```
+
 ### Run the Singularity Image
 To start a `jupyter notebook` from the singularity image run this command:</br>
 `$ singularity run --nv -B user:/run/user -B example/:/notebooks -B example/data/:/data cryoCARE.simg`
