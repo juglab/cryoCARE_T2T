@@ -17,11 +17,11 @@ This is the implementation of the Tomo2Tomo denoising scheme for direct-detector
 ### Installation with Singularity
 First step is to clone this github repository.
 
-Then the simplest way to run the examples is to use the [Singularity](https://singularity.lbl.gov/) container. Singularity allows us to provied you with a fully configured environment, which has all needed packages and dependecies installed. But it requires you to install Singularity on your system:
+Then the simplest way to run the examples is to use the [Singularity](https://sylabs.io/docs/) container. Singularity allows us to provied you with a fully configured environment, which has all needed packages and dependecies installed. But it requires you to install Singularity on your system:
 
-* [Install on Linux](https://singularity.lbl.gov/install-linux)
-* [Install on Mac](https://singularity.lbl.gov/install-mac)
-* [Install on Windows](https://singularity.lbl.gov/install-windows)
+* [Install on Linux](https://sylabs.io/guides/3.3/user-guide/installation.html#install-on-linux)
+* [Install on Mac](https://sylabs.io/guides/3.3/user-guide/installation.html#install-on-windows-or-mac)
+* [Install on Windows](https://sylabs.io/guides/3.3/user-guide/installation.html#install-on-windows-or-mac)
 
 Once you have installed Singularity you can either build the container yourself with the following commands:
 1. Change direcotry into the cloned repository:</br>
