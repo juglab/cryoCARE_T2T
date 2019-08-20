@@ -81,3 +81,25 @@ You can also install the packages on your own:
 * [jupyter](https://pypi.org/project/jupyter/) `$ pip install jupyter`
 
 __Note__: If you run it without the Singularity container you probably have to adjust the paths inside the jupyter notebooks.
+
+---
+## How to cite:
+```
+@inproceedings{buchholz2019cryo,
+  title={Cryo-CARE: content-aware image restoration for cryo-transmission electron microscopy data},
+  author={Buchholz, Tim-Oliver and Jordan, Mareike and Pigino, Gaia and Jug, Florian},
+  booktitle={2019 IEEE 16th International Symposium on Biomedical Imaging (ISBI 2019)},
+  pages={502--506},
+  year={2019},
+  organization={IEEE}
+}
+
+@article{buchholz2019content,
+  title={Content-aware image restoration for electron microscopy.},
+  author={Buchholz, Tim-Oliver and Krull, Alexander and Shahidi, R{\'e}za and Pigino, Gaia and J{\'e}kely, G{\'a}sp{\'a}r and Jug, Florian},
+  journal={Methods in cell biology},
+  volume={152},
+  pages={277--289},
+  year={2019}
+}
+```
