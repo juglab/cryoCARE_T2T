@@ -28,14 +28,14 @@ Then the simplest way to run the examples is to use the [Singularity](https://sy
 
 Once you have installed Singularity you can either build the container yourself with the following commands:
 1. Change direcotry into the cloned repository:</br>
-`$ cd cryoCARE_simg`
+`$ cd cryoCARE_T2T`
 2. Run the Singularity build:</br>
 `$ sudo singularity build cryoCARE.simg cryoCARE.Singularity`
 
 If you don't have sudo rights you can also download the built Singularity container from [here](https://cloud.mpi-cbg.de/index.php/s/yqHmKmPnPRQqk5z).
 
 #### MotionCor2
-Due to licensing we can not ship MotionCor2 directly with the singularity container. You have to download `MotionCor2 v1.2.6 CUDA-9.2` from [here](https://msg.ucsf.edu/software) and place it in `cryoCARE_simg/example`. 
+Due to licensing we can not ship MotionCor2 directly with the singularity container. You have to download `MotionCor2 v1.2.6 CUDA-9.2` from [here](https://msg.ucsf.edu/software) and place it in `cryoCARE_T2T/example`. 
 
 __Note__: It is important to get the CUDA-9.2 version, since we specifically installed CUDA-9.2 in the singularity container.
 
@@ -44,11 +44,11 @@ We would like to thank Mareike Jordan from the [Pigino Lab](https://www.mpi-cbg.
 
 The data can be downloaded [here](https://cloud.mpi-cbg.de/index.php/s/prTOcYsFfPNa1mG/download).
 
-Once the data is downloaded unpack it into `cryoCARE_simg/example/data/`. 
+Once the data is downloaded unpack it into `cryoCARE_T2T/example/data/`. 
 
 You should now have the following directory tree:
 ```
-cryo_CARE_simg
+cryo_CARE_T2T
 |   └─── example
 |           └─── data
 |           |       └─── Tomo110
