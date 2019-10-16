@@ -33,7 +33,8 @@ From: tensorflow/tensorflow:1.12.0-gpu-py3
         cuda-nvml-dev-9-2=9.2.148-1 \
         cuda-minimal-build-9-2=9.2.148-1 \
         cuda-command-line-tools-9-2=9.2.148-1 \
-        libnccl-dev=2.3.7-1+cuda9.2 && \
+        libnccl-dev=2.3.7-1+cuda9.2 \
+        file && \
     	rm -rf /var/lib/apt/lists/*
     	
     # Install IMOD dependency and wget
