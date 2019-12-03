@@ -2,6 +2,7 @@ import mrcfile
 
 import os
 from os.path import join, basename
+import subprocess
 
 from shutil import move as mv
 
@@ -9,10 +10,24 @@ from glob import glob
 
 import numpy as np
 
+from contextlib import contextmanager
+
+
+@contextmanager
+def cd(newdir):
+    "Context manager to temporarily change the working directory"
+    prevdir = os.getcwd()
+    os.chdir(os.path.expanduser(newdir))
+    try:
+        yield
+    finally:
+        os.chdir(prevdir)
+
+
 def save_mrc(path, data, pixel_spacing):
     """
     Save data in a mrc-file and set the pixel spacing with the `alterheader` command from IMOD.
-    
+
     Parameters
     ----------
     path : str
@@ -25,13 +40,17 @@ def save_mrc(path, data, pixel_spacing):
     mrc = mrcfile.open(path, mode='w+')
     mrc.set_data(data)
     mrc.close()
-    os.system("alterheader -del " + str(pixel_spacing) + "," + str(pixel_spacing) + "," + str(pixel_spacing) + " " + path + " > /dev/null 2>&1")
-    
-    
+    cmd = ["alterheader",
+           "-del", "{0},{0},{0}".format(pixel_spacing),
+           path]
+    result = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    result.check_returncode()
+
+
 def remove_files(dir, extension='.mrc'):
     """
     Removes all files in a directory with the given extension.
-    
+
     Parameters
     ----------
     dir : str
@@ -42,14 +61,14 @@ def remove_files(dir, extension='.mrc'):
     files = glob(join(dir, '*'+extension))
     for f in files:
         os.remove(f)
-        
-        
+
+
 def modify_newst(path, bin_factor):
     """
-    Modifies the bin-factor of a given newst.com file. 
-    
+    Modifies the bin-factor of a given newst.com file.
+
     Note: This will overwrite the file!
-    
+
     Parameters
     ----------
     path : str
@@ -71,14 +90,14 @@ def modify_newst(path, bin_factor):
         print(l)
 
     f.close()
-    
-    
+
+
 def modify_ctfcorrection(path, bin_factor, pixel_spacing):
     """
     Modifies the bin-factor of a given ctfcorrection.com file.
-    
+
     Note: This will overwrite the file!
-    
+
     Parameters
     ----------
     path : str
@@ -102,15 +121,15 @@ def modify_ctfcorrection(path, bin_factor, pixel_spacing):
         print(l)
 
     f.close()
-    
-    
+
+
 
 def modify_tilt(path, bin_factor, exclude_angles=[]):
     """
     Modifies the bin-factor and exclude-angles of a given tilt.com file.
-    
+
     Note: This will overwrite the file!
-    
+
     Parameters
     ----------
     path : str
@@ -146,14 +165,14 @@ def modify_tilt(path, bin_factor, exclude_angles=[]):
         print(l)
 
     f.close()
-    
-    
+
+
 def modify_com_scripts(path, bin_factor, pixel_spacing, exclude_angles=[]):
     """
     Modifies the bin-factor and exclude-angles of the newst.com, ctfcorrection.com and tilt.com scripts.
-    
+
     Note: This will overwrite the files!
-    
+
     Parameters
     ----------
     path : str
@@ -177,14 +196,14 @@ def modify_com_scripts(path, bin_factor, pixel_spacing, exclude_angles=[]):
     print("")
     print("Modified 'tilt.com' file:")
     modify_tilt(join(path, 'tilt.com'), bin_factor, exclude_angles);
-    
-    
+
+
 def reconstruct_tomo(path, name, dfix, init, volt=300, rotate_X=True):
     """
     Reconstruct a tomogram with IMOD-com scripts. This also applies mtffilter after ctfcorrection.
-    
+
     A reconstruction log will be placed in the reconstruction-directory.
-    
+
     Parameters
     ----------
     path : str
@@ -192,75 +211,77 @@ def reconstruct_tomo(path, name, dfix, init, volt=300, rotate_X=True):
     name : str
         Name of the tomogram (the prefix).
     dfix : float
-        dfix parameter of mtffilter.
+        dfixed parameter of mtffilter: Fixed dose for each image of the input file, in electrons/square Angstrom
     init : float
-        init parameter of mtffilter.
+        initial parameter of mtffilter: Dose applied before any of the images in the input file were taken
     volt : int
-        volt parameter of mtffilter. Default: ``300``
+        volt parameter of mtffilter. Microscope voltage in kV; must be either 200 or 300. Default: ``300``
     rotate_X : bool
         If the reconstructed tomogram should be rotated 90 degree about X. Default: ``True``
     """
-    pwd = os.getcwd()
-    os.chdir(path)
-    mrc_files = glob(join(path, '*.mrc'))
-    mrc_files.sort()
+    with cd(path):
+        mrc_files = glob('*.mrc')
+        mrc_files.sort()
 
-    files = ''
-    for f in mrc_files:
-        files = files + basename(f)+' '
-    files = files[:-1]
-    cmd = 'newstack ' + files + ' ' + join(path, name + '.st')
-    print(cmd)
-    cmd += ' >> ' + join(path, name + '_reconstruction.log')
-    os.system(cmd)
+        with open(name + "_reconstruction.log", "a") as log:
 
-    cmd = 'submfg eraser.com'
-    print(cmd)
-    cmd += ' >> ' + join(path, name + '_reconstruction.log')
-    os.system(cmd)
+            cmd = ['newstack'] + mrc_files + [name + '.st']
+            print(" ".join(cmd))
+            result = subprocess.run(cmd, stdout=log, stderr=log)
+            result.check_returncode()
 
-    mv(name + '.st', name + '_orig.st')
-    mv(name + '_fixed.st', name + '.st')
+            cmd = ['submfg', 'eraser.com']
+            print(" ".join(cmd))
+            result = subprocess.run(cmd, stdout=log, stderr=log)
+            result.check_returncode()
 
-    cmd = 'submfg newst.com'
-    print(cmd)
-    cmd += ' >> ' + join(path, name + '_reconstruction.log')
-    os.system(cmd)
+            mv(name + '.st', name + '_orig.st')
+            mv(name + '_fixed.st', name + '.st')
 
-    cmd = 'submfg ctfcorrection.com'
-    print(cmd)
-    cmd += ' >> ' + join(path, name + '_reconstruction.log')
-    os.system(cmd)
+            cmd = ['submfg', 'newst.com']
+            print(" ".join(cmd))
+            result = subprocess.run(cmd, stdout=log, stderr=log)
+            result.check_returncode()
 
-    cmd = 'mtffilter -dfixed ' + str(dfix) + ' -initial ' + str(init) + ' -volt ' + str(volt) + ' ' + \
-          name + '_ctfcorr.ali ' + name + '.ali'
-    print(cmd)
-    cmd += ' >> ' + join(path, name + '_reconstruction.log')
-    os.system(cmd)
+            cmd = ['submfg', 'ctfcorrection.com']
+            print(" ".join(cmd))
+            result = subprocess.run(cmd, stdout=log, stderr=log)
+            result.check_returncode()
 
-    cmd = 'submfg tilt.com'
-    print(cmd)
-    cmd += ' >> ' + join(path, name + '_reconstruction.log')
-    os.system(cmd)
+            cmd = ['mtffilter',
+                   '-dfixed', str(dfix),
+                   '-initial', str(init),
+                   '-volt', str(volt),
+                   name + '_ctfcorr.ali',
+                   name + '.ali']
+            print(" ".join(cmd))
+            result = subprocess.run(cmd, stdout=log, stderr=log)
+            result.check_returncode()
 
-    if rotate_X:
-        cmd = 'trimvol -rx ' + name + '_full.rec ' + name + '.rec'
-    else:
-        cmd = 'mv ' + name + '_full.rec ' + name + '.rec'
+            cmd = ['submfg', 'tilt.com']
+            print(" ".join(cmd))
+            result = subprocess.run(cmd, stdout=log, stderr=log)
+            result.check_returncode()
 
-    print(cmd)
-    cmd += ' >> ' + join(path, name + '_reconstruction.log')
-    os.system(cmd)
+            if rotate_X:
+                cmd = ['trimvol',
+                       '-rx', name + '_full.rec',
+                       name + '.rec']
+                print(" ".join(cmd))
+                result = subprocess.run(cmd, stdout=log, stderr=log)
+                result.check_returncode()
+            else:
+                print('mv {0}_full.rec {0}.rec'.format(name))
+                mv(name + '_full.rec', name + '.rec')
 
-    os.remove(name + '.st')
-    os.remove(name + '_full.rec')
-    mv(name + '_orig.st', name + '.st')
-    os.remove(name + '.ali')
-    os.remove(name + '_ctfcorr.ali')
+            os.remove(name + '.st')
+            os.remove(name + '_full.rec')
+            mv(name + '_orig.st', name + '.st')
+            os.remove(name + '.ali')
+            os.remove(name + '_ctfcorr.ali')
 
-    tomName = name + '.rec'
-    split_name = os.path.basename(os.path.normpath(path))
-    tomRename = name + '_' + split_name + '.rec'
-    mv(tomName, tomRename)
+            tomName = name + '.rec'
+            split_name = os.path.basename(os.path.normpath(path))
+            tomRename = name + '_' + split_name + '.rec'
+            mv(tomName, tomRename)
 
-    os.chdir(pwd)
