@@ -30,9 +30,9 @@ Once you have installed Singularity you can either build the container yourself 
 1. Change direcotry into the cloned repository:</br>
 `$ cd cryoCARE_T2T`
 2. Run the Singularity build:</br>
-`$ sudo singularity build cryoCARE.simg cryoCARE.Singularity`
+`$ sudo singularity build cryoCARE_v0.1.1.simg cryoCARE.Singularity`
 
-If you don't have sudo rights you can also download the built Singularity container from [here](https://cloud.mpi-cbg.de/index.php/s/yqHmKmPnPRQqk5z).
+If you don't have sudo rights you can also download the built Singularity container from [here](https://cloud.mpi-cbg.de/index.php/s/Fu9RzDzbSxdXSZR/download).
 
 #### MotionCor2
 Due to licensing we can not ship MotionCor2 directly with the singularity container. You have to download `MotionCor2 v1.3.0 CUDA-10.1` from [here](https://msg.ucsf.edu/software) and place it in `cryoCARE_T2T/example`. 
@@ -59,7 +59,7 @@ cryo_CARE_T2T
 
 ### Run the Singularity Image
 To start a `jupyter notebook` from the singularity image run this command:</br>
-`$ singularity run --nv -B user:/run/user -B example/:/notebooks -B example/data/:/data cryoCARE.simg`
+`$ singularity run --nv -B user:/run/user -B example/:/notebooks -B example/data/:/data cryoCARE_v0.1.1.simg`
 
 This will display a link to the running jupyter server. Open this link in a browser and you will be able to run the five example notebooks in 'cryoCARE_simg/example':
 * `01_Split_Frames.ipynb`: This notebook aligns and splits the movie frames into even/odd halves.
