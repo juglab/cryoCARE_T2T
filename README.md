@@ -15,7 +15,7 @@ This is the implementation of the Tomo2Tomo denoising scheme for direct-detector
 
 ## Usage
 ### Prerequisits:
-* NVIDIA GPU with driver >= 384.81
+* NVIDIA GPU with driver >= 430.40
 ---
 ### Installation with Singularity
 First step is to clone this github repository.
@@ -35,9 +35,9 @@ Once you have installed Singularity you can either build the container yourself 
 If you don't have sudo rights you can also download the built Singularity container from [here](https://cloud.mpi-cbg.de/index.php/s/yqHmKmPnPRQqk5z).
 
 #### MotionCor2
-Due to licensing we can not ship MotionCor2 directly with the singularity container. You have to download `MotionCor2 v1.2.6 CUDA-9.2` from [here](https://msg.ucsf.edu/software) and place it in `cryoCARE_T2T/example`. 
+Due to licensing we can not ship MotionCor2 directly with the singularity container. You have to download `MotionCor2 v1.3.0 CUDA-10.1` from [here](https://msg.ucsf.edu/software) and place it in `cryoCARE_T2T/example`. 
 
-__Note__: It is important to get the CUDA-9.2 version, since we specifically installed CUDA-9.2 in the singularity container.
+__Note__: It is important to get the CUDA-10.1 version, since we specifically installed CUDA-10.1 in the singularity container.
 
 ### Example Data
 We would like to thank Mareike Jordan from the [Pigino Lab](https://www.mpi-cbg.de/research-groups/current-groups/gaia-pigino/research-focus/) at [MPI-CBG](https://www.mpi-cbg.de) for the example data.
@@ -54,7 +54,7 @@ cryo_CARE_T2T
 |           |       └─── Tomo110
 |           |               └─── frames
 |           |               └─── imod
-|           |--- MotionCor2 v1.2.6 CUDA-9.2
+|           |--- MotionCor2 v1.3.0 CUDA-10.1
 ```
 
 ### Run the Singularity Image
@@ -71,11 +71,11 @@ This will display a link to the running jupyter server. Open this link in a brow
 ---
 ### Manual Installation
 You can also install the packages on your own:
-* [MotionCor2 v1.2.6 CUDA-9.2](https://msg.ucsf.edu/software)
+* [MotionCor2 v1.3.0 CUDA-10.1](https://msg.ucsf.edu/software)
 * [IMOD v4.10.16 (beta-release)](http://bio3d.colorado.edu/ftp/latestIMOD/)
-* [CUDA-9.2 for MotionCor2](https://developer.nvidia.com/cuda-92-download-archive)
-* [CUDA-9.0 for Tensorflow](https://developer.nvidia.com/cuda-90-download-archive)
-* [Tensorflow 1.12](https://www.tensorflow.org/install) `$ pip install tensorflow-gpu==1.12`
+* [CUDA-10.1 for MotionCor2](https://developer.nvidia.com/cuda-10.1-download-archive-base)
+* [CUDA-10.0 for Tensorflow](https://developer.nvidia.com/cuda-10.0-download-archive)
+* [Tensorflow 1.15](https://www.tensorflow.org/install) `$ pip install tensorflow-gpu==1.15`
 * [csbdeep](https://github.com/csbdeep/csbdeep) `$ pip install csbdeep`
 * [mrcfile](https://pypi.org/project/mrcfile/) `$ pip install mrcfile`
 * [jupyter](https://pypi.org/project/jupyter/) `$ pip install jupyter`
