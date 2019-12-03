@@ -1,44 +1,41 @@
 BootStrap: docker
-# This image is built on the tensorflow 1.12 gpu docker image. 
+# This image is built on the tensorflow 1.15 gpu docker image. 
 # This image comes with CUDA-9.0 and all required tf dependencies.
-From: tensorflow/tensorflow:1.12.0-gpu-py3
+From: tensorflow/tensorflow:1.15.0-gpu-py3
 	
 %post
     apt-get -y update
-    pip uninstall -y pip
-    apt-get -y install python3-pip
 	
 	# libtiff5 is needed for MotionCor2
 	apt-get -y install libtiff5
-
-	# Install CUDA-9.2 for MotionCor2
-    # CUDA 9.2 is not officially supported on ubuntu 18.04 yet, we use the ubuntu 17.10 repository for CUDA instead.
-    apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-certificates && \
-        curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64/7fa2af80.pub | apt-key add - && \
-        echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
-    	echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list && \
-    	apt-get purge --autoremove -y curl && \
-    	rm -rf /var/lib/apt/lists/*
-    apt-get update && apt-get install -y --no-install-recommends \
-        cuda-cudart-9-2=9.2.148-1 \
-        && rm -rf /var/lib/apt/lists/*
-	apt-get update && apt-get install -y --no-install-recommends \
-        cuda-libraries-9-2=9.2.148-1 \
-        cuda-nvtx-9-2=9.2.148-1 \
-        libnccl2=2.3.7-1+cuda9.2 && \
-    	apt-mark hold libnccl2 && \
-    	rm -rf /var/lib/apt/lists/*
-	apt-get update && apt-get install -y --no-install-recommends \
-        cuda-libraries-dev-9-2=9.2.148-1 \
-        cuda-nvml-dev-9-2=9.2.148-1 \
-        cuda-minimal-build-9-2=9.2.148-1 \
-        cuda-command-line-tools-9-2=9.2.148-1 \
-        libnccl-dev=2.3.7-1+cuda9.2 \
-        file && \
-    	rm -rf /var/lib/apt/lists/*
     	
     # Install IMOD dependency and wget
     apt-get -y update && apt-get -y install libjpeg62 wget
+    
+    # Install CUDA-10.1 for MotionCor2
+    apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-certificates && \
+        curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1810/x86_64/7fa2af80.pub | apt-key add - && \
+        echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1810/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
+    	echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list && \
+    	apt-get purge --autoremove -y curl && \
+    	rm -rf /var/lib/apt/lists/*
+    apt-get update && apt-get install -y --no-install-recommends \
+        cuda-cudart-10-1=10.1.168-1 \
+        && rm -rf /var/lib/apt/lists/*
+	apt-get update && apt-get install -y --no-install-recommends \
+        cuda-libraries-10-1=10.1.168-1 \
+        cuda-nvtx-10-1=10.1.168-1 \
+        libnccl2=2.4.8-1+cuda10.1 && \
+    	apt-mark hold libnccl2 && \
+    	rm -rf /var/lib/apt/lists/*
+	apt-get update && apt-get install -y --no-install-recommends \
+        cuda-libraries-dev-10-1=10.1.168-1 \
+        cuda-nvml-dev-10-1=10.1.168-1 \
+        cuda-minimal-build-10-1=10.1.168-1 \
+        cuda-command-line-tools-10-1=10.1.168-1 \
+        libnccl-dev=2.4.8-1+cuda10.1 \
+        file && \
+    	rm -rf /var/lib/apt/lists/*
     
     # Download IMOD
     mkdir /imod
@@ -52,13 +49,11 @@ From: tensorflow/tensorflow:1.12.0-gpu-py3
     rm -r /IMODtempDir/imod_4.10.16_RHEL6-64_CUDA8.0.tar.gz
 
 	# Install required Python packages
-    pip3 install keras
-    pip3 install docopt
-    pip3 install tifffile
-    pip3 install numpy
-    pip3 install csbdeep
-    pip3 install mrcfile
-    pip3 install jupyter
+    pip install keras==2.2.4
+    pip install tifffile==2019.7.26
+    pip install csbdeep
+    pip install mrcfile
+    pip install jupyter
 
     apt-get autoremove -y
 	apt-get clean
@@ -69,6 +64,7 @@ From: tensorflow/tensorflow:1.12.0-gpu-py3
 	
 	# Make data directory
 	mkdir /data
+	
 	
 %environment
     . /etc/profile.d/IMOD-linux.sh
