@@ -39,14 +39,14 @@ From: tensorflow/tensorflow:1.15.0-gpu-py3
     
     # Download IMOD
     mkdir /imod
-    wget -P /imod http://bio3d.colorado.edu/ftp/latestIMOD/RHEL6-64_CUDA8.0/imod_4.10.16_RHEL6-64_CUDA8.0.sh
-    sh /imod/imod_4.10.16_RHEL6-64_CUDA8.0.sh -extract
+    wget -P /imod https://bio3d.colorado.edu/ftp/latestIMOD/RHEL6-64_CUDA8.0/imod_4.10.52_RHEL6-64_CUDA8.0.sh
+    sh /imod/imod_4.10.52_RHEL6-64_CUDA8.0.sh -extract
     ls /
-    tar -xzf /IMODtempDir/imod_4.10.16_RHEL6-64_CUDA8.0.tar.gz -C /usr/local
-    ln -s /usr/local/imod_4.10.16 /usr/local/IMOD
+    tar -xzf /IMODtempDir/imod_4.10.52_RHEL6-64_CUDA8.0.tar.gz -C /usr/local
+    ln -s /usr/local/imod_4.10.52 /usr/local/IMOD
     cp /usr/local/IMOD/IMOD-linux.* /etc/profile.d
     rm -r /imod
-    rm -r /IMODtempDir/imod_4.10.16_RHEL6-64_CUDA8.0.tar.gz
+    rm -r /IMODtempDir/imod_4.10.52_RHEL6-64_CUDA8.0.tar.gz
 
 	# Install required Python packages
     pip install keras==2.2.4
