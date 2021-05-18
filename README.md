@@ -13,6 +13,8 @@ Publications:
 
 This is the implementation of the Tomo2Tomo denoising scheme for direct-detector movie acquisitions.
 
+__Note:__ A memory efficient implementation can be found [here](https://github.com/juglab/cryoCARE_pip).
+
 ## Usage
 ### Prerequisits:
 * NVIDIA GPU with driver >= 430.40
