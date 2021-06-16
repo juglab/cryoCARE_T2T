@@ -34,8 +34,6 @@ Once you have installed Singularity you can either build the container yourself 
 2. Run the Singularity build:</br>
 `$ sudo singularity build cryoCARE_v0.1.1.simg cryoCARE.Singularity`
 
-If you don't have sudo rights you can also download the built Singularity container from [here](https://cloud.mpi-cbg.de/index.php/s/Fu9RzDzbSxdXSZR/download).
-
 #### MotionCor2
 Due to licensing we can not ship MotionCor2 directly with the singularity container. You have to download `MotionCor2 v1.3.0 CUDA-10.1` from [here](https://msg.ucsf.edu/software) and place it in `cryoCARE_T2T/example`. 
 
