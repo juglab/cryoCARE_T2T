@@ -34,7 +34,7 @@ Once you have installed Singularity you can either build the container yourself 
 2. Run the Singularity build:</br>
 `$ sudo singularity build cryoCARE_v0.1.1.simg cryoCARE.Singularity`
 
-If you don't have sudo rights you can also download the built Singularity container from [here](https://cloud.mpi-cbg.de/index.php/s/Fu9RzDzbSxdXSZR/download).
+If you don't have sudo rights you can also download the built Singularity container from [here](https://download.fht.org/jug/cryoCARE/cryoCARE_v0.1.1.simg).
 
 #### MotionCor2
 Due to licensing we can not ship MotionCor2 directly with the singularity container. You have to download `MotionCor2 v1.3.0 CUDA-10.1` from [here](https://msg.ucsf.edu/software) and place it in `cryoCARE_T2T/example`. 
@@ -44,7 +44,7 @@ __Note__: It is important to get the CUDA-10.1 version, since we specifically in
 ### Example Data
 We would like to thank Mareike Jordan from the [Pigino Lab](https://www.mpi-cbg.de/research-groups/current-groups/gaia-pigino/research-focus/) at [MPI-CBG](https://www.mpi-cbg.de) for the example data.
 
-The data can be downloaded [here](https://cloud.mpi-cbg.de/index.php/s/prTOcYsFfPNa1mG/download).
+The data can be downloaded [here](https://download.fht.org/jug/cryoCARE/Tomo110.zip).
 
 Once the data is downloaded unpack it into `cryoCARE_T2T/example/data/`. 
 
